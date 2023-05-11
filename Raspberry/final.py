@@ -132,7 +132,7 @@ def main():
 if __name__ == "__main__":
 
 
-    GPIO.setmode(GPIO.BOARD)
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(PROGRAM_ENABLE, GPIO.OUT)
     GPIO.setup(out1,GPIO.OUT)
     GPIO.setup(out2,GPIO.OUT)

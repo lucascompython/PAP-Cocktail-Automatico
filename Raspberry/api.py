@@ -10,7 +10,6 @@ app.add_middleware(
     allow_origins=["*"],
 )
 
-MAX = 100
 
 @app.get("/get_percentages")
 def get_percentages() -> dict[str, list[int]]:
@@ -23,3 +22,5 @@ def get_percentages() -> dict[str, list[int]]:
 @app.get("/start")
 def start(liquid1: int, liquid2: int, liquid3: int): 
     pass
+
+
