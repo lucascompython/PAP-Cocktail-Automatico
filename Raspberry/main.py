@@ -4,6 +4,7 @@ import threading
 import RPi.GPIO as GPIO
 import uvicorn
 from api import app
+import pins
 
 """
 Raspbarry PI PINS
@@ -58,6 +59,7 @@ if __name__ == "__main__":
         server_thread = threading.Thread(target=uvicorn.run, args=(app,), kwargs={"host": "0.0.0.0", "port": 5000}, daemon=True)
 
         server_thread.start()
+        pins.enviar_armazenamento_para_o_automato()
 
         main()
     except KeyboardInterrupt:

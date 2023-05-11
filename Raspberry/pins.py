@@ -4,8 +4,8 @@ from time import sleep
 import orjson
 import RPi.GPIO as GPIO
 
-
 informacao_enviada = False
+VEL = 0.0005 # quanto menor, mais rápido
 
 def obter_percentagem_do_autómato() -> int:
     if GPIO.input(26):
@@ -20,18 +20,77 @@ def obter_percentagem_do_autómato() -> int:
         return 0
 
 
-def check_bits_e_enviar_liquido():
+
+def run_motores(voltas: int, motor: int):
+
+    pin1 = 0
+    pin2 = 0
+    pin3 = 0
+    pin4 = 0
+
+    if motor == 1:
+        pin1 = 5
+        pin2 = 7
+        pin3 = 11
+        pin4 = 13
+    elif motor == 2:
+        pin1 = 15
+        pin2 = 19
+        pin3 = 21
+        pin4 = 23
+    elif motor == 3:
+        pin1 = 27
+        pin2 = 29
+        pin3 = 31
+        pin4 = 33
+
+
+    for _ in range(round((voltas * 200) / 4)):
+        GPIO.output(pin1,GPIO.HIGH)
+        GPIO.output(pin2,GPIO.HIGH)
+        GPIO.output(pin3,GPIO.LOW)
+        GPIO.output(pin4,GPIO.LOW)
+        sleep(VEL)
+
+        GPIO.output(pin1,GPIO.LOW)
+        GPIO.output(pin2,GPIO.HIGH)
+        GPIO.output(pin3,GPIO.HIGH)
+        GPIO.output(pin4,GPIO.LOW)
+        sleep(VEL)
+
+        GPIO.output(pin1,GPIO.LOW)
+        GPIO.output(pin2,GPIO.LOW)
+        GPIO.output(pin3,GPIO.HIGH)
+        GPIO.output(pin4,GPIO.HIGH)
+        sleep(VEL)
+
+        GPIO.output(pin1,GPIO.HIGH)
+        GPIO.output(pin2,GPIO.LOW)
+        GPIO.output(pin3,GPIO.LOW)
+        GPIO.output(pin4,GPIO.HIGH)
+        sleep(VEL)
+
+
+    
+
+
+def check_bits_e_enviar_liquido(liquido: int):
     if GPIO.input(26): #33%
-        pass
+        voltas = 20 
+        run_motores(voltas, liquido)
 
     elif GPIO.input(28): #50%
-        pass
+        voltas = 30
+        run_motores(voltas, liquido)
 
     elif GPIO.input(32): #66%
-        pass
+        voltas = 40
+        run_motores(voltas, liquido)
 
     elif GPIO.input(36): #100%
-        pass
+        voltas = 60
+        run_motores(voltas, liquido)
+
 
     elif GPIO.input(32) and GPIO.input(36): #0%
         pass
@@ -62,7 +121,7 @@ def enviar_armazenamento_para_o_automato():
 
     #liquido1
     GPIO.output(7, GPIO.LOW)
-    GPIO.output(8, GPIO)
+    GPIO.output(8, GPIO.LOW)
 
     GPIO.output(8, int(bin_liquido1[0]))
     GPIO.output(10, int(bin_liquido1[1]))
@@ -102,7 +161,19 @@ def enviar_armazenamento_para_o_automato():
 
     GPIO.output(40, GPIO.LOW) # para indicar que o liquido3 não está a ser enviado
 
+    if not informacao_enviada:
+        informacao_enviada = True
     
+    else:
+        # atualizar armazenamento
+        armazenamento["percentagens"][0] -= obter_percentagem_do_autómato()
+        armazenamento["percentagens"][1] -= obter_percentagem_do_autómato()
+        armazenamento["percentagens"][2] -= obter_percentagem_do_autómato()
+
+        with open("armazenamento.json", "wb") as f:
+            f.write(orjson.dumps(armazenamento))
+
+
 
 
 
@@ -117,16 +188,17 @@ def wait_for_start():
 
             #liquido1
             if not GPIO.input(40) and not GPIO.input(7):
-                check_bits_e_enviar_liquido()
+                check_bits_e_enviar_liquido(1)
 
             #liquido2
             if GPIO.input(40) and not GPIO.input(7):
-                check_bits_e_enviar_liquido()
+                check_bits_e_enviar_liquido(2)
 
             #liquido3
             if not GPIO.input(40) and GPIO.input(7):
-                check_bits_e_enviar_liquido()
+                check_bits_e_enviar_liquido(3)
 
+        
 
 
 
