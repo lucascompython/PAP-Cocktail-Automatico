@@ -2,15 +2,14 @@ import { Slider, Checkbox, FormControlLabel } from "@mui/material";
 
 import { useState } from "react";
 
-const LiquidSlider = ({ sliders }) => {
-    const [values, setValues] = useState(new Array(sliders.length).fill(0));
+const LiquidSlider = ({ sliders, values, setValues }) => {
     const maxValue = 100;
 
     const [checked, setChecked] = useState(false);
 
     function handleChange(index: number, value: number) {
         const remaining = maxValue - value;
-        setValues((vs) =>
+        setValues((vs: number[]) =>
             vs.map((v, i) => {
                 if (i === index) return value;
                 const oldRemaining = (maxValue - vs[index]) as number;
