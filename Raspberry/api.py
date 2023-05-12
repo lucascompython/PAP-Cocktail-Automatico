@@ -1,7 +1,8 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 import math
 from time import sleep
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pins import enviar_armazenamento_para_o_automato, mover_eixo, run_motores
 
 app = FastAPI()

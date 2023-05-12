@@ -1,10 +1,10 @@
 import sys
 import threading
 
+import pins
 import RPi.GPIO as GPIO
 import uvicorn
 from api import app
-import pins
 
 """
 Raspbarry PI PINS
