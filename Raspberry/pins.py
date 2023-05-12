@@ -1,5 +1,6 @@
 import os
 from time import sleep
+from typing import Optional
 
 import orjson
 import RPi.GPIO as GPIO
@@ -18,6 +19,25 @@ def obter_percentagem_do_autómato() -> int:
         return 100
     elif GPIO.input(32) and GPIO.input(36):
         return 0
+
+
+
+def mover_eixo(pos: int):
+    GPIO.output(3, GPIO.HIGH)
+
+    if pos == 1:
+        GPIO.output(22, GPIO.HIGH)
+        GPIO.output(24, GPIO.HIGH)
+    
+    elif pos == 2:
+        GPIO.output(22, GPIO.HIGH)
+        GPIO.output(24, GPIO.LOW)
+    
+    elif pos == 3:
+        GPIO.output(22, GPIO.LOW)
+        GPIO.output(24, GPIO.HIGH)
+
+
 
 
 
@@ -96,7 +116,7 @@ def check_bits_e_enviar_liquido(liquido: int):
         pass
 
 
-def enviar_armazenamento_para_o_automato():
+def enviar_armazenamento_para_o_automato(just_percentages: bool = False) -> Optional[dict[str]: list[int]]:
 
     try:
         with open("armazenamento.json", "rb") as f:
@@ -107,6 +127,8 @@ def enviar_armazenamento_para_o_automato():
         armazenamento = {
             "percentagens": [100, 100, 100]
         }
+
+    if just_percentages: return armazenamento
 
     bin_liquido1 = bin(armazenamento["percentagens"][0])[2:]
     bin_liquido2 = bin(armazenamento["percentagens"][1])[2:]
@@ -120,8 +142,8 @@ def enviar_armazenamento_para_o_automato():
     # enviar bits para o autómato
 
     #liquido1
-    GPIO.output(7, GPIO.LOW)
-    GPIO.output(8, GPIO.LOW)
+    GPIO.output(35, GPIO.LOW)
+    GPIO.output(37, GPIO.LOW)
 
     GPIO.output(8, int(bin_liquido1[0]))
     GPIO.output(10, int(bin_liquido1[1]))
@@ -131,9 +153,10 @@ def enviar_armazenamento_para_o_automato():
     GPIO.output(22, int(bin_liquido1[5]))
     GPIO.output(24, int(bin_liquido1[6]))
 
-    sleep(0.5)
+    sleep(0.07)
     #liquido2
-    GPIO.output(7, GPIO.HIGH) # para indicar que o liquido2 está a ser enviado
+    GPIO.output(35, GPIO.LOW) # para indicar que o liquido2 está a ser enviado
+    GPIO.output(37, GPIO.HIGH)
 
     GPIO.output(8, int(bin_liquido2[0]))
     GPIO.output(10, int(bin_liquido2[1]))
@@ -143,11 +166,11 @@ def enviar_armazenamento_para_o_automato():
     GPIO.output(22, int(bin_liquido2[5]))
     GPIO.output(24, int(bin_liquido2[6]))
 
-    sleep(0.5)
+    sleep(0.07)
 
     #liquido3
-    GPIO.output(7, GPIO.LOW) # para indicar que o liquido2 não está a ser enviado
-    GPIO.output(40, GPIO.HIGH) # para indicar que o liquido3 está a ser enviado
+    GPIO.output(35, GPIO.HIGH) # para indicar que o liquido2 não está a ser enviado
+    GPIO.output(37, GPIO.LOW) # para indicar que o liquido3 está a ser enviado
 
     GPIO.output(8, int(bin_liquido3[0]))
     GPIO.output(10, int(bin_liquido3[1]))
@@ -157,9 +180,21 @@ def enviar_armazenamento_para_o_automato():
     GPIO.output(22, int(bin_liquido3[5]))
     GPIO.output(24, int(bin_liquido3[6]))
 
-    sleep(0.5)
+    sleep(0.07)
 
-    GPIO.output(40, GPIO.LOW) # para indicar que o liquido3 não está a ser enviado
+    # desligar tudo
+    GPIO.output(35, GPIO.LOW) 
+
+    GPIO.output(8, GPIO.LOW)
+    GPIO.output(10, GPIO.LOW)
+    GPIO.output(12, GPIO.LOW)
+    GPIO.output(16, GPIO.LOW)
+    GPIO.output(18, GPIO.LOW)
+    GPIO.output(22, GPIO.LOW)
+    GPIO.output(24, GPIO.LOW)
+
+
+    #GPIO.output(40, GPIO.LOW) # para indicar que o liquido3 não está a ser enviado
 
     if not informacao_enviada:
         informacao_enviada = True
@@ -197,9 +232,5 @@ def wait_for_start():
             #liquido3
             if not GPIO.input(40) and GPIO.input(7):
                 check_bits_e_enviar_liquido(3)
-
-        
-
-
 
         sleep(0.001)

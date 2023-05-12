@@ -46,7 +46,14 @@ const App = () => {
 
     return (
         <>
-            <h1>Cocktail Automático</h1>
+            <h1>
+                <a
+                    href="https://github.com/lucascompython/PAP-Cocktail-Automatico"
+                    target="_blank"
+                >
+                    Cocktail Automático
+                </a>
+            </h1>
             <div>
                 <img
                     src={fotoModelo3D}
