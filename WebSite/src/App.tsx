@@ -7,7 +7,7 @@ import "./App.css";
 import LiquidSlider from "./Components/LiquidSlider/LiquidSlider";
 
 const start = async (liquido1: number, liquido2: number, liquido3: number) => {
-    const response = await fetch(
+    await fetch(
         `http://127.0.0.1:5000/start?liquido1=${liquido1}&liquido2=${liquido2}&liquido3=${liquido3}`,
         {
             method: "POST",

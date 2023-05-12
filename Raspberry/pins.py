@@ -36,6 +36,11 @@ def mover_eixo(pos: int):
     elif pos == 3:
         GPIO.output(22, GPIO.LOW)
         GPIO.output(24, GPIO.HIGH)
+    
+    elif pos == 4:
+        GPIO.output(22, GPIO.LOW)
+        GPIO.output(24, GPIO.LOW)
+    
 
 
 
@@ -234,3 +239,8 @@ def wait_for_start():
                 check_bits_e_enviar_liquido(3)
 
         sleep(0.001)
+
+if __name__ == "__main__":
+    import sys
+    sys.stderr.write("Este programa não deve ser executado diretamente\nUtilize o programa 'main.py'")
+    exit(1)

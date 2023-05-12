@@ -40,6 +40,9 @@ def start(liquido1: int, liquido2: int, liquido3: int):
     run_motores(voltas3, 3)
     sleep(50)
 
+    mover_eixo(4) # retorno
+    sleep(2) # dar tempo para o eixo se mover
+
     return {"status": "ok"}
 
 
