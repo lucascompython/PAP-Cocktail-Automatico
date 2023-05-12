@@ -6,9 +6,8 @@
 
 ## Descrição
 
-Este repositório contém todos os recursos relacionados ao projeto de PAP (Projeto de Aptidão Profissional) de um Cocktail Automático, desenvolvido por, Lucas de Linhares e Roberto Fernandes.  
-A PAP é um projeto que desenvolvemos como parte do processo de formação profissional.    Esta inclui vários elementos, como um sistema de mistura de liquidos, um WebSite, pombas peristálticas e mais!
-
+Este repositório contém todos os recursos relacionados ao projeto de PAP (Projeto de Aptidão Profissional) de um Cocktail Automático, desenvolvido por: Lucas de Linhares e Roberto Fernandes.  
+A PAP é um projeto que desenvolvemos como parte do processo de formação profissional.    Esta inclui vários elementos, como um sistema de mistura de liquidos, um WebSite, bombas peristálticas e mais!
 
 
 ## Instalação do WebSite
@@ -39,15 +38,12 @@ cd ../Raspberry
 # Instale as dependências
 pip3 install fastapi uvicorn[standard]
 
-# Inicie APENAS o servidor de backend
-uvicorn api:app --reload
-
-# Inicie o programa inteiro (incluindo o controle dos motores)
+# Iniciar o programa inteiro (incluindo o controle dos motores)
 python3 main.py
 
-
+# Iniciar APENAS o servidor de backend
+uvicorn api:app --reload
 ```
-
 
 ## Licenciamento
 
