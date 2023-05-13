@@ -12,9 +12,12 @@ const LiquidSlider = ({ sliders, values, setValues }) => {
         setValues((vs: number[]) =>
             vs.map((v, i) => {
                 if (i === index) return value;
-                const oldRemaining = (maxValue - vs[index]) as number;
                 if (!checked) return vs[i];
 
+                const oldRemaining = (maxValue - vs[index]) as number;
+                console.log({ oldRemaining: (remaining * v) / oldRemaining });
+
+                console.log({ remaining: remaining / (sliders.length - 1) });
                 if (oldRemaining) return (remaining * v) / oldRemaining;
                 return remaining / (sliders.length - 1);
             })
@@ -29,17 +32,16 @@ const LiquidSlider = ({ sliders, values, setValues }) => {
         if (event.target.checked) {
             const remaining = maxValue - values[0] - values[1] - values[2];
             const max = Math.max(...values);
-            const sum = values.reduce((a, b) => a + b, 0);
+            const sum = values.reduce((a: number, b: number) => a + b, 0);
 
-            const maxCount = values.filter((v) => v === max).length;
-            console.log(maxCount);
+            const maxCount = values.filter((v: number) => v === max).length;
 
             if (maxCount === 3 && sum > maxValue) {
-                setValues((vs) => vs.map((v) => v + remaining / 3));
+                setValues((vs: number[]) => vs.map((v) => v + remaining / 3));
                 return;
             }
 
-            setValues((vs) =>
+            setValues((vs: number[]) =>
                 vs.map((v) => (v !== max ? v + remaining / (3 - maxCount) : v))
             );
         }

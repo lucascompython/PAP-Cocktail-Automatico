@@ -85,6 +85,13 @@ const App = () => {
                 color="primary"
                 variant="contained"
                 onClick={() => {
+                    const total = values.reduce((a, b) => a + b, 0);
+                    if (total > 101) {
+                        alert(
+                            "A soma das percentagens não pode ser maior que 100%"
+                        );
+                        return;
+                    }
                     start(values[0], values[1], values[2]);
                     setMessage("Cocktail iniciado");
                 }}
