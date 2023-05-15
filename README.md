@@ -1,4 +1,4 @@
-# PAP-Cocktail-Automtico
+# PAP-Cocktail-Automático
 <div align="center">
     <img src="./Fotos/imagem_modelo3d.png" />
 </div>
