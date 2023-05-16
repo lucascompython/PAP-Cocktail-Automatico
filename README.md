@@ -10,7 +10,7 @@ Este repositório contém todos os recursos relacionados ao projeto de PAP (Proj
 A PAP é um projeto que desenvolvemos como parte do processo de formação profissional.    Esta inclui vários elementos, como um sistema de mistura de liquidos, um WebSite, bombas peristálticas e mais!
 
 
-## Instalação do WebSite
+## Instalação de Dependências
 
 ```bash
 # Clone o repositório
