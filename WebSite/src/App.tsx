@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import fotoModelo3D from "./assets/foto_modelo3d.png";
+import fotoModelo3D from "./assets/foto_modelo3d.webp";
 import { Button } from "@mui/material";
 
 import "./App.css";

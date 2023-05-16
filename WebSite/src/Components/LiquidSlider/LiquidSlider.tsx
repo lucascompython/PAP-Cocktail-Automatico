@@ -1,4 +1,5 @@
 import { Slider, Checkbox, FormControlLabel } from "@mui/material";
+import "./LiquidSlider.css";
 
 import { useState } from "react";
 
@@ -15,9 +16,7 @@ const LiquidSlider = ({ sliders, values, setValues }) => {
                 if (!checked) return vs[i];
 
                 const oldRemaining = (maxValue - vs[index]) as number;
-                console.log({ oldRemaining: (remaining * v) / oldRemaining });
 
-                console.log({ remaining: remaining / (sliders.length - 1) });
                 if (oldRemaining) return (remaining * v) / oldRemaining;
                 return remaining / (sliders.length - 1);
             })
@@ -50,7 +49,7 @@ const LiquidSlider = ({ sliders, values, setValues }) => {
     return (
         <>
             {sliders.map((item: string, index: number) => (
-                <>
+                <div className="slider-container">
                     <p>Liquido Nº. {index + 1}</p>
                     <Slider
                         key={index}
@@ -63,7 +62,7 @@ const LiquidSlider = ({ sliders, values, setValues }) => {
                         valueLabelFormat={(v) => `${Math.round(v)}%`}
                         aria-label="slider"
                     />
-                </>
+                </div>
             ))}
             <FormControlLabel
                 label="Preencher"
