@@ -1,6 +1,6 @@
 # PAP-Cocktail-Automático
 <div align="center">
-    <img src="./Fotos/imagem_modelo3d.png" />
+    <img src="./Fotos/foto3d_frente.webp" />
 </div>
 
 
